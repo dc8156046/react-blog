@@ -13,6 +13,8 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
   const [replyingToCommentId, setReplyingToCommentId] = useState(0);
   const [replyText, setReplyText] = useState("");
 
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const user_id = localStorage.getItem("user_id")
     ? localStorage.getItem("user_id")
     : 0;
@@ -21,9 +23,7 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
     // Fetch post data based on postId
     async function fetchPost() {
       try {
-        const response = await fetch(
-          `http://localhost:8000/posts/detail/${postId}`
-        );
+        const response = await fetch(`${apiBaseUrl}/posts/detail/${postId}`);
         const postData = await response.json();
         setPost(postData);
         fetchCategory(postData.category_id);
@@ -36,7 +36,7 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
     const fetchCategory = async (categoryId) => {
       try {
         const response = await fetch(
-          `http://localhost:8000/categories/detail/${categoryId}`
+          `${apiBaseUrl}/categories/detail/${categoryId}`
         );
         const categoryData = await response.json();
         setCategory(categoryData);
@@ -47,9 +47,7 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
 
     async function fetchComments(postId) {
       try {
-        const response = await fetch(
-          `http://localhost:8000/comments/post/${postId}`
-        );
+        const response = await fetch(`${apiBaseUrl}/comments/post/${postId}`);
         const commentsData = await response.json();
         setComments(commentsData);
 
@@ -57,7 +55,7 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
         commentsData.forEach(async (comment) => {
           try {
             const response = await fetch(
-              `http://localhost:8000/comments/${comment.id}/replies`
+              `${apiBaseUrl}/comments/${comment.id}/replies`
             );
             const repliesData = await response.json();
             setComments((prevComments) =>
@@ -70,7 +68,7 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
             repliesData.forEach(async (reply) => {
               try {
                 const response = await fetch(
-                  `http://localhost:8000/comments/${reply.id}/replies`
+                  `${apiBaseUrl}/comments/${reply.id}/replies`
                 );
                 const repliesData = await response.json();
                 setComments((prevComments) =>
@@ -108,20 +106,17 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
     if (!comment) return;
 
     try {
-      const response = await fetch(
-        `http://localhost:8000/comments/post/${postId}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            post_id: postId,
-            content: comment,
-          }),
-        }
-      );
+      const response = await fetch(`${apiBaseUrl}/comments/post/${postId}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          post_id: postId,
+          content: comment,
+        }),
+      });
 
       if (response.ok) {
         const newComment = await response.json();
@@ -146,17 +141,14 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `http://localhost:8000/comments/${editCommentId}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ content: editContent }),
-        }
-      );
+      const response = await fetch(`${apiBaseUrl}/comments/${editCommentId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: editContent }),
+      });
 
       if (response.ok) {
         setComments((prevComments) =>
@@ -176,15 +168,12 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
 
   const deleteComment = async (commentId) => {
     try {
-      const response = await fetch(
-        `http://localhost:8000/comments/${commentId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await fetch(`${apiBaseUrl}/comments/${commentId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
 
       if (response.ok) {
         setComments((prevComments) =>
@@ -206,7 +195,7 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
     // Submit reply to server
     try {
       const response = await fetch(
-        `http://localhost:8000/comments/${commentId}/reply`,
+        `${apiBaseUrl}/comments/${commentId}/reply`,
         {
           method: "POST",
           headers: {

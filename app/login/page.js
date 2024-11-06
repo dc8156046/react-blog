@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const handleSubmit = (e) => {
     e.preventDefault();
     login();
@@ -17,7 +17,7 @@ export default function Page() {
     formData.append("username", username);
     formData.append("password", password);
     try {
-      const res = await fetch("http://localhost:8000/auth/token", {
+      const res = await fetch(`${apiBaseUrl}/auth/token`, {
         method: "POST",
         headers: {},
         body: formData,
@@ -41,7 +41,7 @@ export default function Page() {
       localStorage.setItem("token_type", data.token_type);
       localStorage.setItem("username", data.username);
       localStorage.setItem("user_id", data.user_id);
-      alert(`Success: ${data.username || "Login successful"}`);
+      alert(`Login successful! Welcome, ${data.username || ""}`);
       window.location.href = "/";
       //console.log(data);
     } catch (error) {

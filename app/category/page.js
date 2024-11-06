@@ -6,12 +6,14 @@ import { useState, useEffect } from "react";
 
 export default function Page() {
   const [categories, setCategories] = useState([]);
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   useEffect(() => {
     fetchCategories();
   }, []);
   const fetchCategories = async () => {
     try {
-      const res = await fetch("http://localhost:8000/categories", {
+      const res = await fetch(`${apiBaseUrl}/categories`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -55,7 +57,7 @@ export default function Page() {
       parent_id: newCategoryParentId,
     };
     try {
-      const res = await fetch("http://localhost:8000/categories", {
+      const res = await fetch(`${apiBaseUrl}/categories`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -120,7 +122,7 @@ export default function Page() {
 
     try {
       const response = await fetch(
-        `http://localhost:8000/categories/${editingCategoryId}`,
+        `${apiBaseUrl}/categories/${editingCategoryId}`,
         {
           method: "PUT", // Use PUT to update the category
           headers: {
@@ -158,7 +160,7 @@ export default function Page() {
   const deleteCategory = (id) => {
     // Logic to delete the category with the given id
     try {
-      fetch(`http://localhost:8000/categories/${id}`, {
+      fetch(`${apiBaseUrl}/categories/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

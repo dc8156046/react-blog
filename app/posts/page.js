@@ -10,6 +10,7 @@ export default function Page() {
   const [isAscending, setIsAscending] = useState(true);
   const [selectedPostId, setSelectedPostId] = useState(0);
   const isLoggedIn = true;
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   useEffect(() => {
     fetchPosts(); // Fetch posts on component mount
@@ -17,7 +18,7 @@ export default function Page() {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch("http://localhost:8000/posts", {
+      const res = await fetch(`${apiBaseUrl}/posts`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -45,7 +46,7 @@ export default function Page() {
 
   const deletePost = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8000/posts/my/${id}/`, {
+      const response = await fetch(`${apiBaseUrl}/posts/my/${id}/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },

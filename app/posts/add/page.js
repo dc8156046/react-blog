@@ -15,23 +15,21 @@ export default function Page() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [images, setImages] = useState([]);
   const [categories, setCategories] = useState([]);
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   // Fetch categories and tags
   useEffect(() => {
     async function fetchData() {
       try {
-        const categoriesResponse = await fetch(
-          "http://localhost:8000/categories",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
+        const categoriesResponse = await fetch(`${apiBaseUrl}/categories`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
         const categoriesData = await categoriesResponse.json();
         setCategories(categoriesData);
 
-        const tagsResponse = await fetch("http://localhost:8000/tags", {
+        const tagsResponse = await fetch(`${apiBaseUrl}/tags`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
@@ -61,7 +59,7 @@ export default function Page() {
   };
   const addTag = async () => {
     try {
-      const response = await fetch("http://localhost:8000/tags", {
+      const response = await fetch(`${apiBaseUrl}/tags`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -88,7 +86,7 @@ export default function Page() {
 
   const removeTag = async (tagId) => {
     try {
-      const response = await fetch(`http://localhost:8000/tags/${tagId}`, {
+      const response = await fetch(`${apiBaseUrl}/tags/${tagId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -115,7 +113,7 @@ export default function Page() {
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const response = await fetch("http://localhost:8000/upload-image", {
+      const response = await fetch(`${apiBaseUrl}/upload-image`, {
         method: "POST",
         body: formData,
       });
@@ -141,7 +139,7 @@ export default function Page() {
     console.log("New post:", newPost);
 
     try {
-      const response = await fetch("http://localhost:8000/posts/my", {
+      const response = await fetch(`${apiBaseUrl}/posts/my`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

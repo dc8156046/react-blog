@@ -11,7 +11,7 @@ export default function Side() {
 
   const navItems = [
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Category", path: "/category" },
+    { name: "Categories", path: "/category" },
     { name: "Posts", path: "/posts" },
     { name: "Comments", path: "/comments" },
     { name: "Likes", path: "/likes" },

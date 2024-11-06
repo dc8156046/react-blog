@@ -8,6 +8,7 @@ export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +26,7 @@ export default function Page() {
         email,
         password,
       };
-      const res = await fetch("http://localhost:8000/auth/", {
+      const res = await fetch(`${apiBaseUrl}/auth/`, {
         method: "POST", // Specify the request method as POST
         headers: {
           "Content-Type": "application/json", // Specify that we're sending JSON data
