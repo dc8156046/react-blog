@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
         name="viewport"
         content="width=device-width, initial-scale=1.0"
       ></meta>
-      <title>Blog</title>
+      <title>React Blog</title>
       <body className="bg-gray-100">{children}</body>
     </html>
   );

@@ -34,15 +34,22 @@ export default function Page() {
       });
 
       if (!res.ok) {
+        if (res.status === 409) {
+          const errorData = await res.json();
+          alert(`Error: ${errorData.detail || "Conflict error"}`);
+          return;
+        }
         throw new Error(`HTTP error! status: ${res.status}`);
       }
 
       const data = await res.json();
-      alert(data.message);
+      alert(`Success: ${data.message || "Account created"}`);
+
       setUsername("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      window.location.href = "/login";
     } catch (error) {
       console.error("Error:", error);
     }
