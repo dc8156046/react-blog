@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-
+import Link from "next/link";
 export default function Header() {
   const [username, setUsername] = useState("");
 
@@ -21,20 +21,20 @@ export default function Header() {
     <header className="bg-white shadow">
       <div className="container mx-auto flex justify-between items-center p-4">
         <div className="text-xl font-bold">
-          <a href="/" className="text-blue-500">
+          <Link href="/" className="text-blue-500">
             LOGO
-          </a>
+          </Link>
         </div>
         <div className="space-x-4">
           {username ? (
             <>
               <span className="text-gray-700">Welcome, {username}</span>
-              <a
+              <Link
                 href="/dashboard"
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Dashboard
-              </a>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="border border-red-500 text-red-500 px-4 py-2 rounded hover:bg-red-500 hover:text-white"
@@ -44,18 +44,18 @@ export default function Header() {
             </>
           ) : (
             <>
-              <a
+              <Link
                 href="/signup"
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
               >
                 Sign Up
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/login"
                 className="border border-blue-500 text-blue-500 px-4 py-2 rounded hover:bg-blue-500 hover:text-white"
               >
                 Login
-              </a>
+              </Link>
             </>
           )}
         </div>

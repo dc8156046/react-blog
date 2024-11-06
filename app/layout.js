@@ -1,8 +1,9 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Blog Web App",
-  description: "A blog web app built with React and FastAPI",
+  title: "React Blog Web App with Python FastAPI Backend",
+  description:
+    "A blog web app built with React and FastAPI, with user authentication and CRUD operations.",
 };
 
 export default function RootLayout({ children }) {
@@ -12,7 +13,15 @@ export default function RootLayout({ children }) {
         name="viewport"
         content="width=device-width, initial-scale=1.0"
       ></meta>
-      <title>React Blog</title>
+      <meta name="description" content={metadata.description}></meta>
+      <meta name="author" content="Dan Chen"></meta>
+      <meta name="robots" content="index, follow"></meta>
+      <meta
+        name="keywords"
+        content="Python, blog, web app, react, fastapi, Next.js"
+      ></meta>
+
+      <title>{metadata.title}</title>
       <body className="bg-gray-100">{children}</body>
     </html>
   );

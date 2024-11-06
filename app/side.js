@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-
+import Link from "next/link";
 export default function Side() {
   const [currentPath, setCurrentPath] = useState("");
 
@@ -22,7 +22,7 @@ export default function Side() {
         <ul>
           {navItems.map((item) => (
             <li key={item.name}>
-              <a
+              <Link
                 href={item.path}
                 className={`block py-2 px-4 rounded hover:bg-gray-700 hover:text-white ${
                   currentPath.startsWith(item.path)
@@ -32,7 +32,7 @@ export default function Side() {
                 onClick={() => setCurrentPath(item.path)} // Update the current path on click
               >
                 {item.name}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

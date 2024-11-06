@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="bg-white shadow mt-8">
@@ -9,15 +10,15 @@ export default function Footer() {
           </p>
         </div>
         <div className="space-x-4">
-          <a href="#" className="text-gray-600 hover:underline">
+          <Link href="#" className="text-gray-600 hover:underline">
             About Us
-          </a>
-          <a href="#" className="text-gray-600 hover:underline">
+          </Link>
+          <Link href="#" className="text-gray-600 hover:underline">
             Contact Us
-          </a>
-          <a href="#" className="text-gray-600 hover:underline">
+          </Link>
+          <Link href="#" className="text-gray-600 hover:underline">
             Privacy Policy
-          </a>
+          </Link>
         </div>
       </div>
     </footer>

@@ -2,7 +2,7 @@
 import Header from "../header";
 import Footer from "../footer";
 import { useState } from "react";
-
+import Link from "next/link";
 export default function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -99,9 +99,9 @@ export default function Page() {
           </form>
           <p className="mt-4 text-center text-gray-600">
             Don't have an account?{" "}
-            <a href="/signup" className="text-blue-500 hover:underline">
+            <Link href="/signup" className="text-blue-500 hover:underline">
               Sign Up
-            </a>
+            </Link>
           </p>
         </div>
       </main>
