@@ -1,8 +1,8 @@
 "use client";
 import Footer from "@/app/footer";
 import Header from "@/app/header";
-import React, { useState, useEffect } from "react";
-import { use } from "react";
+import React, { useState, useEffect, use } from "react";
+import Link from "next/link";
 
 export default function Page({ params }) {
   const { id: postId } = use(params);
@@ -10,9 +10,10 @@ export default function Page({ params }) {
     typeof window !== "undefined" &&
     window.localStorage.getItem("access_token");
   const [post, setPost] = useState(null);
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState("");
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [author, setAuthor] = useState("");
 
   const [editCommentId, setEditCommentId] = useState(0);
   const [editContent, setEditContent] = useState("");
@@ -35,6 +36,7 @@ export default function Page({ params }) {
         const postData = await response.json();
         setPost(postData);
         fetchCategory(postData.category_id);
+        fetchAuthor(postData.user_id);
         fetchComments(postData.id);
       } catch (error) {
         console.error("Failed to fetch post", error);
@@ -50,6 +52,16 @@ export default function Page({ params }) {
         setCategory(categoryData);
       } catch (error) {
         console.error("Failed to fetch category", error);
+      }
+    };
+
+    const fetchAuthor = async (authorId) => {
+      try {
+        const response = await fetch(`${apiBaseUrl}/users/${authorId}`);
+        const authorData = await response.json();
+        setAuthor(authorData);
+      } catch (error) {
+        console.error("Failed to fetch author", error);
       }
     };
 
@@ -281,13 +293,19 @@ export default function Page({ params }) {
           <div className="flex items-center mb-4">
             <span className="font-semibold text-gray-600">Category:</span>
             <span className="ml-2 text-gray-800">
-              {category ? category.name : "Loading..."}
+              <Link href={`/category/${category.id}`}>
+                {category ? category.name : "Loading..."}
+              </Link>
             </span>
           </div>
 
           <div className="flex items-center mb-4">
             <span className="font-semibold text-gray-600">Author:</span>
-            <span className="ml-2 text-gray-800">{post.user_id}</span>
+            <span className="ml-2 text-gray-800">
+              <Link href={`/user/${author.id}`}>
+                {author ? author.username : "Loading..."}
+              </Link>
+            </span>
           </div>
 
           <hr className="my-4" />
