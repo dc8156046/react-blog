@@ -68,6 +68,10 @@ export default function Page() {
   };
 
   const handleCategoryClick = (category) => {
+    if (category === null && typeof window !== "undefined") {
+      window.location.href = "/";
+      return;
+    }
     setSelectedCategory(category);
     onCategorySelect(category); // Call the category selection handler with the selected category
   };
@@ -92,10 +96,6 @@ export default function Page() {
 
   const onCategorySelect = async (category) => {
     try {
-      if (category == null) {
-        fetchPosts();
-        return;
-      }
       const res = await fetch(`${apiBaseUrl}/posts/category/${category}`, {
         method: "GET",
       });
