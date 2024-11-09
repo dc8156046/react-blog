@@ -272,27 +272,28 @@ export default function Page({ params }) {
       <Header />
       <main className="container mx-auto my-8">
         <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">
+          <h1 className="text-4xl font-bold text-gray-800 mb-3 border-b border-gray-300 pb-2">
             {post.title}
           </h1>
 
-          <p className="text-gray-500 text-sm">
-            Published on:
-            <span className="font-medium">
-              {new Date(post.published_at).toLocaleDateString()}
-            </span>
-          </p>
-
-          <p className="text-gray-500 text-sm mb-4">
-            Last updated:
-            <span className="font-medium">
-              {new Date(post.updated_at).toLocaleDateString()}
-            </span>
-          </p>
+          <div className="text-gray-500 text-sm mb-4 flex flex-wrap items-center gap-4">
+            <p>
+              <span className="font-semibold text-gray-600">Published on:</span>
+              <span className="ml-1 font-medium">
+                {new Date(post.published_at).toLocaleDateString()}
+              </span>
+            </p>
+            <p>
+              <span className="font-semibold text-gray-600">Last updated:</span>
+              <span className="ml-1 font-medium">
+                {new Date(post.updated_at).toLocaleDateString()}
+              </span>
+            </p>
+          </div>
 
           <div className="flex items-center mb-4">
             <span className="font-semibold text-gray-600">Category:</span>
-            <span className="ml-2 text-gray-800">
+            <span className="ml-2 text-blue-600 hover:underline">
               <Link href={`/category/${category.id}`}>
                 {category ? category.name : "Loading..."}
               </Link>
@@ -301,7 +302,7 @@ export default function Page({ params }) {
 
           <div className="flex items-center mb-4">
             <span className="font-semibold text-gray-600">Author:</span>
-            <span className="ml-2 text-gray-800">
+            <span className="ml-2 text-blue-600 hover:underline">
               <Link href={`/user/${author.id}`}>
                 {author ? author.username : "Loading..."}
               </Link>
