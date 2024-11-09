@@ -8,16 +8,16 @@ export default function Header() {
     setUsername(window.localStorage.getItem("username") || "");
   }, []);
 
-  useEffect(() => {
-    const handleLogout = () => {
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
       window.localStorage.removeItem("access_token");
       window.localStorage.removeItem("token_type");
       window.localStorage.removeItem("username");
       window.localStorage.removeItem("user_id");
       setUsername(""); // Update state to reflect the logout
       window.location.href = "/"; // Redirect to home or login page
-    };
-  }, []);
+    }
+  };
 
   return (
     <header className="bg-white shadow">

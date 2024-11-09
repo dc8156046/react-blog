@@ -13,7 +13,7 @@ export default function Page() {
   const observerRef = useRef(null);
 
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-  console.log(apiBaseUrl);
+  //console.log(apiBaseUrl);
   const skip = page == 1 ? 0 : 9 * page; // Number of posts to skip for pagination
 
   const isLoggedIn =
