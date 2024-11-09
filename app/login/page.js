@@ -1,12 +1,13 @@
 "use client";
 import Header from "../header";
 import Footer from "../footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 export default function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const handleSubmit = (e) => {
     e.preventDefault();
     login();
@@ -37,12 +38,15 @@ export default function Page() {
       }
 
       const data = await res.json();
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("token_type", data.token_type);
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("user_id", data.user_id);
-      alert(`Login successful! Welcome, ${data.username || ""}`);
-      window.location.href = "/";
+
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("access_token", data.access_token);
+        window.localStorage.setItem("token_type", data.token_type);
+        window.localStorage.setItem("username", data.username);
+        window.localStorage.setItem("user_id", data.user_id);
+        alert(`Login successful! Welcome, ${data.username || ""}`);
+        window.location.href = "/";
+      }
       //console.log(data);
     } catch (error) {
       console.error("Error:", error);

@@ -23,12 +23,14 @@ export default function Page() {
         if (res.status === 401) {
           const errorData = await res.json();
           alert(`Error: ${errorData.detail || "Invalid credentials"}`);
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("token_type");
-          localStorage.removeItem("username");
-          localStorage.removeItem("user_id");
-          window.location.href = "/login";
-          return;
+          if (typeof window !== "undefined") {
+            window.localStorage.removeItem("access_token");
+            window.localStorage.removeItem("token_type");
+            window.localStorage.removeItem("username");
+            window.localStorage.removeItem("user_id");
+            window.location.href = "/login";
+            return;
+          }
         }
 
         throw new Error(`HTTP error! status: ${res.status}`);
@@ -60,7 +62,11 @@ export default function Page() {
       const res = await fetch(`${apiBaseUrl}/categories`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${
+            typeof window !== "undefined"
+              ? window.localStorage.getItem("access_token")
+              : ""
+          }`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newCategory),
@@ -74,12 +80,14 @@ export default function Page() {
         if (res.status === 401) {
           const errorData = await res.json();
           alert(`Error: ${errorData.detail || "Invalid credentials"}`);
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("token_type");
-          localStorage.removeItem("username");
-          localStorage.removeItem("user_id");
-          window.location.href = "/login";
-          return;
+          if (typeof window !== "undefined") {
+            window.localStorage.removeItem("access_token");
+            window.localStorage.removeItem("token_type");
+            window.localStorage.removeItem("username");
+            window.localStorage.removeItem("user_id");
+            window.location.href = "/login";
+            return;
+          }
         }
         if (res.status === 400) {
           const errorData = await res.json();
@@ -126,7 +134,11 @@ export default function Page() {
         {
           method: "PUT", // Use PUT to update the category
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${
+              typeof window !== "undefined"
+                ? window.localStorage.getItem("access_token")
+                : ""
+            }`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(updatedCategory),
@@ -137,12 +149,14 @@ export default function Page() {
         if (response.status === 401) {
           const errorData = await response.json();
           alert(`Error: ${errorData.detail || "Invalid credentials"}`);
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("token_type");
-          localStorage.removeItem("username");
-          localStorage.removeItem("user_id");
-          window.location.href = "/login";
-          return;
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("token_type");
+            localStorage.removeItem("username");
+            localStorage.removeItem("user_id");
+            window.location.href = "/login";
+            return;
+          }
         }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -163,7 +177,11 @@ export default function Page() {
       fetch(`${apiBaseUrl}/categories/${id}`, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${
+            typeof window !== "undefined"
+              ? window.localStorage.getItem("access_token")
+              : ""
+          }`,
         },
       });
     } catch (error) {

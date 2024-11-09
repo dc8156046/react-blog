@@ -1,3 +1,4 @@
+"use client";
 import Footer from "@/app/footer";
 import Header from "@/app/header";
 import React, { useState, useEffect } from "react";
@@ -15,9 +16,10 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
 
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  const user_id = localStorage.getItem("user_id")
-    ? localStorage.getItem("user_id")
-    : 0;
+  const user_id =
+    typeof window !== "undefined" && window.localStorage.getItem("user_id")
+      ? window.localStorage.getItem("user_id")
+      : 0;
 
   useEffect(() => {
     // Fetch post data based on postId
@@ -109,7 +111,11 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
       const response = await fetch(`${apiBaseUrl}/comments/post/${postId}`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${
+            typeof window !== "undefined"
+              ? window.localStorage.getItem("access_token")
+              : ""
+          }`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -144,7 +150,11 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
       const response = await fetch(`${apiBaseUrl}/comments/${editCommentId}`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${
+            typeof window !== "undefined"
+              ? window.localStorage.getItem("access_token")
+              : ""
+          }`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ content: editContent }),
@@ -171,7 +181,11 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
       const response = await fetch(`${apiBaseUrl}/comments/${commentId}`, {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${
+            typeof window !== "undefined"
+              ? localStorage.getItem("access_token")
+              : ""
+          }`,
         },
       });
 
@@ -199,7 +213,11 @@ export default function PostDetail({ postId, onBack, isLoggedIn }) {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${
+              typeof window !== "undefined"
+                ? localStorage.getItem("access_token")
+                : ""
+            }`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({

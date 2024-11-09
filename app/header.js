@@ -5,17 +5,19 @@ export default function Header() {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    setUsername(localStorage.getItem("username") || "");
+    setUsername(window.localStorage.getItem("username") || "");
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("token_type");
-    localStorage.removeItem("username");
-    localStorage.removeItem("user_id");
-    setUsername(""); // Update state to reflect the logout
-    window.location.href = "/"; // Redirect to home or login page
-  };
+  useEffect(() => {
+    const handleLogout = () => {
+      window.localStorage.removeItem("access_token");
+      window.localStorage.removeItem("token_type");
+      window.localStorage.removeItem("username");
+      window.localStorage.removeItem("user_id");
+      setUsername(""); // Update state to reflect the logout
+      window.location.href = "/"; // Redirect to home or login page
+    };
+  }, []);
 
   return (
     <header className="bg-white shadow">

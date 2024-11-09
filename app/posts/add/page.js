@@ -152,12 +152,14 @@ export default function Page() {
         if (response.status === 401) {
           const errorData = await response.json();
           alert(`Error: ${errorData.detail || "Invalid credentials"}`);
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("token_type");
-          localStorage.removeItem("username");
-          localStorage.removeItem("user_id");
-          window.location.href = "/login";
-          return;
+          if (typeof window !== "undefined") {
+            window.localStorage.removeItem("access_token");
+            window.localStorage.removeItem("token_type");
+            window.localStorage.removeItem("username");
+            window.localStorage.removeItem("user_id");
+            window.location.href = "/login";
+            return;
+          }
         }
         throw new Error("Failed to add post");
       }

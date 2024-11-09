@@ -16,7 +16,10 @@ export default function Page() {
 
   const skip = page == 1 ? 0 : 9 * page; // Number of posts to skip for pagination
 
-  const isLoggedIn = localStorage.getItem("access_token") ? true : false;
+  const isLoggedIn =
+    typeof window !== "undefined" && localStorage.getItem("access_token")
+      ? true
+      : false;
 
   useEffect(() => {
     fetchPosts(); // Fetch posts on component mount
@@ -27,7 +30,11 @@ export default function Page() {
       const res = await fetch(`${apiBaseUrl}/posts/published?skip=${skip}`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${
+            typeof window !== "undefined"
+              ? localStorage.getItem("access_token")
+              : ""
+          }`,
           "Content-Type": "application/json",
         },
       });

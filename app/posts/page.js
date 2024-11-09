@@ -28,11 +28,13 @@ export default function Page() {
         if (res.status === 401) {
           const errorData = await res.json();
           alert(`Error: ${errorData.detail || "Invalid credentials"}`);
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("token_type");
-          localStorage.removeItem("username");
-          localStorage.removeItem("user_id");
-          window.location.href = "/login";
+          if (typeof window !== "undefined") {
+            window.localStorage.removeItem("access_token");
+            window.localStorage.removeItem("token_type");
+            window.localStorage.removeItem("username");
+            window.localStorage.removeItem("user_id");
+            window.location.href = "/login";
+          }
           return;
         }
         throw new Error(`HTTP error! status: ${res.status}`);
@@ -48,7 +50,11 @@ export default function Page() {
     try {
       const response = await fetch(`${apiBaseUrl}/posts/my/${id}/`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${
+            typeof window !== "undefined"
+              ? window.localStorage.getItem("access_token")
+              : ""
+          }`,
         },
         method: "DELETE",
       });
@@ -57,11 +63,14 @@ export default function Page() {
         if (response.status === 401) {
           const errorData = await response.json();
           alert(`Error: ${errorData.detail || "Invalid credentials"}`);
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("token_type");
-          localStorage.removeItem("username");
-          localStorage.removeItem("user_id");
-          window.location.href = "/login";
+          if (typeof window !== "undefined") {
+            window.localStorage.removeItem("access_token");
+            window.localStorage.removeItem("token_type");
+            window.localStorage.removeItem("username");
+            window.localStorage.removeItem("user_id");
+            window.location.href = "/login";
+            return;
+          }
           return;
         }
         throw new Error(`HTTP error! status: ${response.status}`);
