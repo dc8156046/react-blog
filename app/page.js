@@ -1,12 +1,11 @@
 "use client";
 import Header from "./header";
 import Footer from "./footer";
-import PostDetail from "@/component/post-detail";
 import { useState, useEffect, useRef, useCallback } from "react";
+import Link from "next/link";
 
 export default function Page() {
   const [posts, setPosts] = useState([]);
-  const [selectedPostId, setSelectedPostId] = useState(0);
 
   const [page, setPage] = useState(1); // Track the current page for pagination
   const [loading, setLoading] = useState(false); // Loading state to avoid duplicate requests
@@ -72,16 +71,16 @@ export default function Page() {
     };
   }, [handleObserver]);
 
-  if (selectedPostId) {
-    // Show PostDetail if a post ID is selected
-    return (
-      <PostDetail
-        postId={selectedPostId}
-        onBack={() => setSelectedPostId(null)}
-        isLoggedIn={isLoggedIn}
-      />
-    );
-  }
+  // if (selectedPostId) {
+  //   // Show PostDetail if a post ID is selected
+  //   return (
+  //     <PostDetail
+  //       postId={selectedPostId}
+  //       onBack={() => setSelectedPostId(null)}
+  //       isLoggedIn={isLoggedIn}
+  //     />
+  //   );
+  // }
 
   return (
     <>
@@ -95,12 +94,12 @@ export default function Page() {
               <p className="text-gray-700">
                 {post.content.substring(0, 50)}...
               </p>
-              <button
-                onClick={() => setSelectedPostId(parseInt(post.id))}
+              <Link
+                href={`/posts/detail/${post.id}`}
                 className="text-blue-500 hover:underline"
               >
                 Read More
-              </button>
+              </Link>
             </article>
           ))}
         </div>
