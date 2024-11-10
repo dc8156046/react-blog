@@ -3,8 +3,8 @@ import Header from "../../header";
 import Footer from "../../footer";
 import Side from "../../side";
 import React, { useState, useEffect } from "react";
-import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css"; // Import Quill styling
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Import Quill styling
 
 export default function Page() {
   const [title, setTitle] = useState("");
