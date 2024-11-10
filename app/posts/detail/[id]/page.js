@@ -3,6 +3,9 @@ import Footer from "@/app/footer";
 import Header from "@/app/header";
 import React, { useState, useEffect, use } from "react";
 import Link from "next/link";
+import DOMPurify from "dompurify";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css"; // Import Quill styling
 
 export default function Page({ params }) {
   const { id: postId } = use(params);
@@ -265,6 +268,18 @@ export default function Page({ params }) {
     }
   };
 
+  const handleCommentChange = (content) => {
+    setComment(content);
+  };
+
+  const handleEditContentChange = (content) => {
+    setEditContent(content);
+  };
+
+  const handleReplyText = (replyText) => {
+    setReplyText(replyText);
+  };
+
   if (!post) return <p>Loading...</p>;
 
   return (
@@ -312,7 +327,14 @@ export default function Page({ params }) {
           <hr className="my-4" />
 
           <h2 className="text-xl font-semibold text-gray-700 mb-2">Content</h2>
-          <p className="text-gray-700 mb-6">{post.content}</p>
+          <div className="quill-content">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(post.content),
+              }}
+              className="ql-editor max-w-full prose prose-lg text-gray-700 mb-6"
+            />
+          </div>
 
           <hr className="my-4" />
 
@@ -327,11 +349,31 @@ export default function Page({ params }) {
                   <li key={comment.id} className="border-b py-2">
                     {editCommentId === comment.id ? (
                       <form onSubmit={handleEditSubmit}>
-                        <textarea
+                        <ReactQuill
+                          theme="snow"
                           value={editContent}
-                          onChange={(e) => setEditContent(e.target.value)}
-                          className="border rounded w-full p-2 mb-2"
+                          onChange={handleEditContentChange}
+                          className="mb-4"
+                          placeholder="Start typing here..."
+                          modules={{
+                            toolbar: [
+                              [{ header: "1" }, { header: "2" }, { font: [] }],
+                              [{ size: [] }],
+                              [
+                                "bold",
+                                "italic",
+                                "underline",
+                                "strike",
+                                "blockquote",
+                              ],
+                              [{ list: "ordered" }, { list: "bullet" }],
+                              ["link", "image"],
+                              [{ align: [] }],
+                              ["clean"],
+                            ],
+                          }}
                         />
+
                         <button type="submit" className="text-green-500 mr-2">
                           Save
                         </button>
@@ -344,9 +386,14 @@ export default function Page({ params }) {
                       </form>
                     ) : (
                       <>
-                        <p>
-                          {comment.content} by {comment.user_id}
-                        </p>
+                        <p>{comment.user_id}</p>
+                        <div
+                          key={comment.id}
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(comment.content),
+                          }}
+                          className="ql-editor prose prose-lg text-gray-700"
+                        />
                         {comment.user_id == user_id && (
                           <div className="flex space-x-2 mt-2">
                             <button
@@ -374,12 +421,38 @@ export default function Page({ params }) {
                         {/* Show reply textarea if replying to this comment */}
                         {replyingToCommentId === comment.id && (
                           <div className="mt-2">
-                            <textarea
-                              className="w-full p-2 border rounded"
+                            <h4 className="text-lg font-semibold">
+                              Reply to Comment:
+                            </h4>
+                            <ReactQuill
+                              theme="snow"
                               value={replyText}
-                              onChange={(e) => setReplyText(e.target.value)}
-                              placeholder="Write your reply..."
+                              onChange={handleReplyText}
+                              className="mb-4"
+                              placeholder="Start typing here..."
+                              modules={{
+                                toolbar: [
+                                  [
+                                    { header: "1" },
+                                    { header: "2" },
+                                    { font: [] },
+                                  ],
+                                  [{ size: [] }],
+                                  [
+                                    "bold",
+                                    "italic",
+                                    "underline",
+                                    "strike",
+                                    "blockquote",
+                                  ],
+                                  [{ list: "ordered" }, { list: "bullet" }],
+                                  ["link", "image"],
+                                  [{ align: [] }],
+                                  ["clean"],
+                                ],
+                              }}
                             />
+
                             <button
                               onClick={() => submitReply(comment.id)}
                               className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -392,12 +465,13 @@ export default function Page({ params }) {
                           <div className="mt-2 ml-4">
                             <h4 className="text-lg font-semibold">Replies:</h4>
                             {comment.replies.map((reply) => (
-                              <p
+                              <div
                                 key={reply.id}
-                                className="ml-2 border-l-2 pl-2"
-                              >
-                                {reply.content}
-                              </p>
+                                dangerouslySetInnerHTML={{
+                                  __html: DOMPurify.sanitize(reply.content),
+                                }}
+                                className="ql-editor prose prose-lg text-gray-700"
+                              />
                             ))}
                           </div>
                         )}
@@ -412,12 +486,23 @@ export default function Page({ params }) {
           {/* Comment Input */}
           {isLoggedIn ? (
             <form onSubmit={handleCommentSubmit} className="mb-4">
-              <textarea
-                className="border rounded w-full p-2 mb-2"
-                rows="4"
+              <ReactQuill
+                theme="snow"
                 value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Add your comment..."
+                onChange={handleCommentChange}
+                className="mb-4"
+                placeholder="Start typing here..."
+                modules={{
+                  toolbar: [
+                    [{ header: "1" }, { header: "2" }, { font: [] }],
+                    [{ size: [] }],
+                    ["bold", "italic", "underline", "strike", "blockquote"],
+                    [{ list: "ordered" }, { list: "bullet" }],
+                    ["link", "image"],
+                    [{ align: [] }],
+                    ["clean"],
+                  ],
+                }}
               />
               <button
                 type="submit"

@@ -2,7 +2,9 @@
 import Header from "../../header";
 import Footer from "../../footer";
 import Side from "../../side";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css"; // Import Quill styling
 
 export default function Page() {
   const [title, setTitle] = useState("");
@@ -125,6 +127,10 @@ export default function Page() {
     }
   };
 
+  const handleChange = (value) => {
+    setContent(value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -222,14 +228,24 @@ export default function Page() {
                 >
                   Content
                 </label>
-                <textarea
-                  id="content"
+                <ReactQuill
+                  theme="snow"
                   value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  required
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-                  rows="4"
-                ></textarea>
+                  onChange={handleChange}
+                  className="mb-4"
+                  placeholder="Start typing here..."
+                  modules={{
+                    toolbar: [
+                      [{ header: "1" }, { header: "2" }, { font: [] }],
+                      [{ size: [] }],
+                      ["bold", "italic", "underline", "strike", "blockquote"],
+                      [{ list: "ordered" }, { list: "bullet" }],
+                      ["link", "image"],
+                      [{ align: [] }],
+                      ["clean"],
+                    ],
+                  }}
+                />
               </div>
 
               <div className="mb-4">
