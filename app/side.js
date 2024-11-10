@@ -13,8 +13,6 @@ export default function Side() {
     { name: "Dashboard", path: "/dashboard" },
     { name: "Categories", path: "/category" },
     { name: "Posts", path: "/posts" },
-    { name: "Comments", path: "/comments" },
-    { name: "Likes", path: "/likes" },
   ];
   return (
     <aside className="bg-gray-200 text-black w-64 p-6 space-y-6">
