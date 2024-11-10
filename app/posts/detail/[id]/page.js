@@ -4,10 +4,12 @@ import Header from "@/app/header";
 import React, { useState, useEffect, use } from "react";
 import Link from "next/link";
 import DOMPurify from "dompurify";
-import ReactQuill from "react-quill-new";
+//import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css"; // Import Quill styling
+import dynamic from "next/dynamic";
 
 export default function Page({ params }) {
+  const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
   const { id: postId } = use(params);
   const isLoggedIn =
     typeof window !== "undefined" &&

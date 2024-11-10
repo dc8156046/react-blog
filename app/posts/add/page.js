@@ -3,10 +3,12 @@ import Header from "../../header";
 import Footer from "../../footer";
 import Side from "../../side";
 import React, { useState, useEffect } from "react";
-import ReactQuill from "react-quill-new";
+//import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css"; // Import Quill styling
+import dynamic from "next/dynamic";
 
 export default function Page() {
+  const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState(0);
