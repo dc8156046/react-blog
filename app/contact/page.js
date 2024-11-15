@@ -1,6 +1,7 @@
 import Header from "../header";
 import Footer from "../footer";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Page() {
   const [username, setUsername] = useState("");
@@ -122,12 +123,12 @@ export default function Page() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               You can also reach us at{" dan.chen01@edu.sait.ca "}
-              <a
+              <Link
                 href="mailto:dan.chen01@edu.sait.ca"
                 className="text-blue-500 hover:underline"
               >
                 dan.chen01@edu.sait.ca
-              </a>
+              </Link>
               .
             </p>
           </div>
