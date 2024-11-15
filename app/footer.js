@@ -10,7 +10,7 @@ export default function Footer() {
           </p>
         </div>
         <div className="space-x-4">
-          <Link href="#" className="text-gray-600 hover:underline">
+          <Link href="/about" className="text-gray-600 hover:underline">
             About Us
           </Link>
           <Link href="#" className="text-gray-600 hover:underline">

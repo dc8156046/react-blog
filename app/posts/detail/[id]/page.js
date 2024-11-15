@@ -39,6 +39,14 @@ export default function Page({ params }) {
       try {
         const response = await fetch(`${apiBaseUrl}/posts/detail/${postId}`);
         const postData = await response.json();
+        if (!response.ok) {
+          if (response.status === 404) {
+            if (typeof window !== "undefined") {
+              window.location.href = "/404";
+            }
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         setPost(postData);
         fetchCategory(postData.category_id);
         fetchAuthor(postData.user_id);
