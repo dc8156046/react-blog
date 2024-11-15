@@ -13,7 +13,7 @@ export default function Footer() {
           <Link href="/about" className="text-gray-600 hover:underline">
             About Us
           </Link>
-          <Link href="#" className="text-gray-600 hover:underline">
+          <Link href="/contact" className="text-gray-600 hover:underline">
             Contact Us
           </Link>
           <Link href="#" className="text-gray-600 hover:underline">
