@@ -24,7 +24,7 @@ export default function AboutPage() {
             <p className="text-gray-800 mb-4">
               The application uses React Router to manage navigation, and it
               uses React Hooks to manage state and side effects. Tailwind CSS is
-              used for styling, and the JSONPlaceholder API is used to fetch and
+              used for styling, and the Python FastAPI is used to fetch and
               update data.
             </p>
             <p className="text-gray-800 mb-4">
