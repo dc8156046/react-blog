@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 export default function Page({ params }) {
   const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
   const { id: postId } = use(params);
+
   const isLoggedIn =
     typeof window !== "undefined" &&
     window.localStorage.getItem("access_token");

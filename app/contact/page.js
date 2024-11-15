@@ -3,6 +3,50 @@ import Footer from "../footer";
 import Link from "next/link";
 
 export default function Page() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendMessage();
+  };
+
+  const sendMessage = async () => {
+    try {
+      const requestBody = {
+        name: username,
+        email,
+        message,
+      };
+      const res = await fetch(`${apiBaseUrl}/contact/`, {
+        method: "POST", // Specify the request method as POST
+        headers: {
+          "Content-Type": "application/json", // Specify that we're sending JSON data
+        },
+        body: JSON.stringify(requestBody), // Convert data to JSON
+      });
+
+      if (!res.ok) {
+        if (res.status === 409) {
+          const errorData = await res.json();
+          alert(`Error: ${errorData.detail || "Conflict error"}`);
+          return;
+        }
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      alert("Success: Message sent. Thank you for contacting us!");
+
+      setUsername("");
+      setEmail("");
+      setMessage("");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <>
       <Header />
@@ -11,7 +55,7 @@ export default function Page() {
           <h2 className="text-2xl font-bold text-gray-700 text-center mb-6">
             Contact Me
           </h2>
-          <form className="space-y-4">
+          <form className="space-y-4" action="POST" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="name"
@@ -23,6 +67,8 @@ export default function Page() {
                 id="name"
                 name="name"
                 type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your name"
@@ -39,6 +85,8 @@ export default function Page() {
                 id="email"
                 name="email"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 placeholder="Enter your email"
@@ -55,6 +103,8 @@ export default function Page() {
                 id="message"
                 name="message"
                 rows="4"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 required
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 placeholder="Type your message here"
