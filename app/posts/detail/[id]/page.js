@@ -5,11 +5,11 @@ import React, { useState, useEffect, use } from "react";
 import Link from "next/link";
 import DOMPurify from "dompurify";
 //import ReactQuill from "react-quill-new";
-import "react-quill-new/dist/quill.snow.css"; // Import Quill styling
+//import "react-quill-new/dist/quill.snow.css"; // Import Quill styling
 import dynamic from "next/dynamic";
 
 export default function Page({ params }) {
-  const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+  //const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
   const { id: postId } = use(params);
 
   const isLoggedIn =
@@ -360,29 +360,10 @@ export default function Page({ params }) {
                   <li key={comment.id} className="border-b py-2">
                     {editCommentId === comment.id ? (
                       <form onSubmit={handleEditSubmit}>
-                        <ReactQuill
-                          theme="snow"
+                        <textarea
                           value={editContent}
                           onChange={handleEditContentChange}
-                          className="mb-4"
-                          placeholder="Start typing here..."
-                          modules={{
-                            toolbar: [
-                              [{ header: "1" }, { header: "2" }, { font: [] }],
-                              [{ size: [] }],
-                              [
-                                "bold",
-                                "italic",
-                                "underline",
-                                "strike",
-                                "blockquote",
-                              ],
-                              [{ list: "ordered" }, { list: "bullet" }],
-                              ["link", "image"],
-                              [{ align: [] }],
-                              ["clean"],
-                            ],
-                          }}
+                          className="w-full h-96 p-4 border border-gray-300 rounded-md"
                         />
 
                         <button type="submit" className="text-green-500 mr-2">
@@ -435,35 +416,11 @@ export default function Page({ params }) {
                             <h4 className="text-lg font-semibold">
                               Reply to Comment:
                             </h4>
-                            <ReactQuill
-                              theme="snow"
+                            <textarea
                               value={replyText}
                               onChange={handleReplyText}
-                              className="mb-4"
-                              placeholder="Start typing here..."
-                              modules={{
-                                toolbar: [
-                                  [
-                                    { header: "1" },
-                                    { header: "2" },
-                                    { font: [] },
-                                  ],
-                                  [{ size: [] }],
-                                  [
-                                    "bold",
-                                    "italic",
-                                    "underline",
-                                    "strike",
-                                    "blockquote",
-                                  ],
-                                  [{ list: "ordered" }, { list: "bullet" }],
-                                  ["link", "image"],
-                                  [{ align: [] }],
-                                  ["clean"],
-                                ],
-                              }}
+                              className="w-full h-96 p-4 border border-gray-300 rounded-md"
                             />
-
                             <button
                               onClick={() => submitReply(comment.id)}
                               className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -497,23 +454,10 @@ export default function Page({ params }) {
           {/* Comment Input */}
           {isLoggedIn ? (
             <form onSubmit={handleCommentSubmit} className="mb-4">
-              <ReactQuill
-                theme="snow"
+              <textarea
                 value={comment}
                 onChange={handleCommentChange}
-                className="mb-4"
-                placeholder="Start typing here..."
-                modules={{
-                  toolbar: [
-                    [{ header: "1" }, { header: "2" }, { font: [] }],
-                    [{ size: [] }],
-                    ["bold", "italic", "underline", "strike", "blockquote"],
-                    [{ list: "ordered" }, { list: "bullet" }],
-                    ["link", "image"],
-                    [{ align: [] }],
-                    ["clean"],
-                  ],
-                }}
+                className="w-full h-96 p-4 border border-gray-300 rounded-md"
               />
               <button
                 type="submit"
