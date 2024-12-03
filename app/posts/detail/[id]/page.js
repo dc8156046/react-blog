@@ -361,10 +361,11 @@ export default function Page({ params }) {
                     {editCommentId === comment.id ? (
                       <form onSubmit={handleEditSubmit}>
                         <textarea
-                          value={editContent}
                           onChange={handleEditContentChange}
                           className="w-full h-96 p-4 border border-gray-300 rounded-md"
-                        />
+                        >
+                          {editContent}
+                        </textarea>
 
                         <button type="submit" className="text-green-500 mr-2">
                           Save
@@ -417,10 +418,11 @@ export default function Page({ params }) {
                               Reply to Comment:
                             </h4>
                             <textarea
-                              value={replyText}
                               onChange={handleReplyText}
                               className="w-full h-96 p-4 border border-gray-300 rounded-md"
-                            />
+                            >
+                              {replyText}
+                            </textarea>
                             <button
                               onClick={() => submitReply(comment.id)}
                               className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -455,10 +457,11 @@ export default function Page({ params }) {
           {isLoggedIn ? (
             <form onSubmit={handleCommentSubmit} className="mb-4">
               <textarea
-                value={comment}
                 onChange={handleCommentChange}
                 className="w-full h-96 p-4 border border-gray-300 rounded-md"
-              />
+              >
+                {comment}
+              </textarea>
               <button
                 type="submit"
                 className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
