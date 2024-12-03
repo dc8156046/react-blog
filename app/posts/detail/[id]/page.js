@@ -138,7 +138,8 @@ export default function Page({ params }) {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!comment) return;
-
+    console.log(comment);
+    console.log(apiBaseUrl);
     try {
       const response = await fetch(`${apiBaseUrl}/comments/post/${postId}`, {
         method: "POST",
