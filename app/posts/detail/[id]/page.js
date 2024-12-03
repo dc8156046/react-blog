@@ -137,17 +137,20 @@ export default function Page({ params }) {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    if (!comment) return;
-
+    if (!comment.trim()) {
+      console.error("Comment is empty");
+      return;
+    }
+    console.log(comment);
     try {
+      const token =
+        typeof window !== "undefined" &&
+        window.localStorage.getItem("access_token");
+
       const response = await fetch(`${apiBaseUrl}/comments/post/${postId}`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${
-            typeof window !== "undefined"
-              ? window.localStorage.getItem("access_token")
-              : ""
-          }`,
+          Authorization: token ? `Bearer ${token}` : "",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -362,7 +365,9 @@ export default function Page({ params }) {
                       <form onSubmit={handleEditSubmit}>
                         <textarea
                           value={editContent}
-                          onChange={handleEditContentChange}
+                          onChange={(e) =>
+                            handleEditContentChange(e.target.value)
+                          }
                           className="w-full h-96 p-4 border border-gray-300 rounded-md"
                         />
 
@@ -418,7 +423,7 @@ export default function Page({ params }) {
                             </h4>
                             <textarea
                               value={replyText}
-                              onChange={handleReplyText}
+                              onChange={(e) => handleReplyText(e.target.value)}
                               className="w-full h-96 p-4 border border-gray-300 rounded-md"
                             />
                             <button
@@ -456,7 +461,7 @@ export default function Page({ params }) {
             <form onSubmit={handleCommentSubmit} className="mb-4">
               <textarea
                 value={comment}
-                onChange={handleCommentChange}
+                onChange={(e) => handleCommentChange(e.target.value)}
                 className="w-full h-96 p-4 border border-gray-300 rounded-md"
               />
 
